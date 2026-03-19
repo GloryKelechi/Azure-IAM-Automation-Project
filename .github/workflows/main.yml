@@ -1,0 +1,22 @@
+name: Azure-IAM-Automation-Pipeline
+
+on:
+  push:
+    branches: [ master, main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1.4.6
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Run Deployment Script
+        run: |
+          chmod +x deploy_final.sh
+          bash deploy_final.sh
